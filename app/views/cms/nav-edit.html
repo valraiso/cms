@@ -1,0 +1,150 @@
+<div>
+    <ul class="cms_tabs">
+        <li class="cms_tab-title ${(selectedTab == '#cms_nav_urls') ? 'active' : ''}"><a href="#cms_nav_urls">navigation</a></li>
+        <li class="cms_tab-title ${(selectedTab == '#cms_nav_seo') ? 'active' : ''}"><a href="#cms_nav_seo">seo</a></li>
+        
+        <li style="float: right">
+            <ul class="cms_pills cms_langs" style="float:right;margin:-5px 0 0 0">
+                #{list langs, as:'lang'}
+                <li #{if lang == selectedLang}class="active"#{/if}><a href="#${lang}">${lang}</a></li>
+                #{/list}
+            </ul>
+        </li>
+    </ul>
+    <form id="cms_nav_form">
+        <input type="hidden" name="navid"  value="${navItem.id}"/>
+        <input type="hidden" name="update" value="1"/>
+        
+        <div id="cms_nav_urls" class="cms_tab-content ${(selectedTab == '#cms_nav_urls') ? 'active' : ''}">
+
+            <table>
+                <tr>
+                    <td style="width:80px;">Nom</td>
+                    <td>${navItem.name}</td>
+                </tr>
+
+                #{if virtualPage != null && virtualPageTemplate == null}
+                <tr>
+                    <td>Page virtuelle</td>
+                    <td>${virtualPage.view}</td>
+                </tr>
+                #{/if}
+                #{else}
+                <tr>
+                    <td>Modèle</td>
+                    <td>
+                        #{if templates.size > 0}
+                        <select name="template">
+                            #{list templates, as:'tpl'}
+                            <option value="${tpl.id}">${tpl.name}</option>
+                            #{/list}
+                        </select>
+                        #{/if}
+                        #{else}
+                        Aucun modèle disponible.
+                        #{/else}
+                    </td>
+                </tr>
+                #{/else}
+                <tr>
+                    <td>Visibilité</td>
+                    <td>
+                        <input id="navitem_active" type="checkbox" name="navitem_active" style="width:15px" ${(navItem.active) ? 'checked' : ''}/>
+                        <label for="navitem_active">public</label>
+                    </td>
+                </tr>
+            </table>
+
+            <hr/>
+
+            #{list mappedItems.keySet(), as:'lang'}
+
+                %{
+                    mappedItem = mappedItems.get(lang)
+                    url = (mappedItem == null && lang == 'fr') ? navItem.path : mappedItem?.destination;
+                }%
+
+                <table class="cms_bloc ${lang} #{if lang == selectedLang}active#{/if}">
+                    <tr>
+                        <td>url</td>
+                        <td><input type="text" name="${lang}_url" value="${url}"/></td>
+                    </tr>
+                    <tr>
+                        <td>trad</td>
+                        <td><input type="text" name="${lang}_trad" value="${cms.translate(navItem.name, lang)}"/></td>
+                    </tr>                    
+                </table>
+
+            #{/list}
+
+        </div>
+        <div id="cms_nav_seo" class="cms_tab-content ${(selectedTab == '#cms_nav_seo') ? 'active' : ''}">
+
+            #{list seos.keySet(), as:'lang'}
+
+                %{
+                    seoParameter = seos.get(lang)
+                }%
+
+                <div class="cms_bloc ${lang} #{if lang == selectedLang}active#{/if}">
+
+                <table >
+                    <tr>
+                        <td>Title</td>
+                        <td><input type="text" name="${lang}_meta_title" value="${(seoParameter == null) ? '' : seoParameter?.title.stripSlashes()}"/></td>
+                    </tr>
+                    <tr>
+                        <td>Keywords</td>
+                        <td><input type="text" name="${lang}_meta_keywords" value="${(seoParameter == null) ? '' : seoParameter?.keywords.stripSlashes()}"/></td>
+                    </tr>
+                    <tr>
+                        <td>Description</td>
+                        <td><textarea name="${lang}_meta_desc" style="width:385px;height: 90px">${(seoParameter == null) ? '' : seoParameter?.description.stripSlashes().unescape()}</textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Robots</td>
+                        <td>
+                            <select name="${lang}_robots">
+                                <option value=""                    ${seoParameter?.robots == null ? 'selected' : ''}></option>
+                                <option value="index"               ${seoParameter?.robots == 'index' ? 'selected' : ''}>index</option>
+                                <option value="index, follow"       ${seoParameter?.robots == 'index, follow' ? 'selected' : ''}>index, follow</option>
+                                <option value="index, nofollow"     ${seoParameter?.robots == 'index, nofollow' ? 'selected' : ''}>index, nofollow</option>
+                                <option value="noindex"             ${seoParameter?.robots == 'noindex' ? 'selected' : ''}>noindex</option>
+                                <option value="noindex, follow"     ${seoParameter?.robots == 'noindex, follow' ? 'selected' : ''}>noindex, follow</option>
+                                <option value="noindex, nofollow"   ${seoParameter?.robots == 'noindex, nofollow' ? 'selected' : ''}>noindex, nofollow</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+
+                <h3><a href="/--sitemap/${lang}" target="_blank">Sitemap.xml</a></h3>
+
+                <ul>
+                    <li>inclure <input type="checkbox" name="${lang}_insitemap" ${(seoParameter?.inSitemap) ? 'checked' : ''}/></li>
+                    <li>Fréquence 
+                        <select name="${lang}_freq">
+                            <option value="Always"  ${seoParameter?.frequency == 'Always'  ? 'selected' :''}>Always</option>
+                            <option value="Hourly"  ${seoParameter?.frequency == 'Hourly'  ? 'selected' :''}>Hourly</option> 
+                            <option value="Daily"   ${seoParameter?.frequency == 'Daily'   ? 'selected' :''}>Daily</option> 
+                            <option value="Weekly"  ${seoParameter?.frequency == 'Weekly'  ? 'selected' :''}>Weekly</option> 
+                            <option value="Monthly" ${seoParameter?.frequency == 'Monthly' ? 'selected' :''}>Monthly</option> 
+                            <option value="Yearly"  ${seoParameter?.frequency == 'Yearly'  ? 'selected' :''}>Yearly</option> 
+                            <option value="Never"   ${seoParameter?.frequency == 'Never'   ? 'selected' :''}>Never</option> 
+                        </select>
+                    </li>
+                    <li>Priorité 
+                        %{selectedPrio = (seoParameter?.priority == null) ? '0.8' : seoParameter.priority}%
+                        <select name="${lang}_prio">
+                            #{list items:1..9, as:'i'}
+                                %{prio = "0."+i}%
+                                <option value="${prio}" ${selectedPrio == prio ? 'selected' : ''}>${prio}</option>
+                            #{/list}
+                        </select>
+                    </li>
+                </ul>
+                </div>
+            #{/list}      
+
+        </div>
+    </form>
+</div>

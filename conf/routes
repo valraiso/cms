@@ -1,0 +1,20 @@
+# This file defines all module routes (Higher priority routes first)
+#
+# import these routes in the main app as :
+# *     /                       module:cms
+#
+# ~~~~
+
+GET     /--cms/clearcache				cms.CmsController.ClearCache
+POST    /--cms/auth						cms.CmsController.auth
+
+POST    /--cms/navigation			    cms.CmsController.manageNavigation
+POST    /--cms/navigation/create        cms.CmsController.create
+POST    /--cms/navigation/rename        cms.CmsController.rename
+POST    /--cms/navigation/remove        cms.CmsController.remove
+POST    /--cms/navigation/move          cms.CmsController.move
+POST	/--cms/navigation/edit          cms.CmsController.edit
+
+POST    /--cms/editor/save          	cms.EditorController.save
+*       /--cms/editor/browser          	cms.EditorController.browser
+GET     /public/files/{<.+>filepath}    cms.FileController.files

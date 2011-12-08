@@ -1,0 +1,29 @@
+<ul>
+    #{if navItem != null}
+
+        #{if navItem.parent == null && !alreadyPassed}
+        %{alreadyPassed = true}%
+        <li id="cms_nav${navItem.id}">
+            <a href="#" #{if navItem == openedNavItem}class="firstopened"#{/if}>${navItem.name}</a>
+            #{include '/cms/arbo.html'/}
+        </li>
+        #{/if}
+        #{else}
+        #{list items : navItem.children, as : 'item'}
+        <li id="cms_nav${item.id}" #{if item == openedNavItem}class="firstopened"#{/if}>
+            <a href="#">${item.name}</a>
+            
+            #{if item.children}
+                %{navItem = item}%
+                #{include '/cms/arbo.html'/}
+            #{/if}
+        </li>
+        #{/list}
+        #{/else}
+    #{/if}
+    #{else}
+        <li id="cms_nav0">
+            <a href="#" class="firstopened"></a>
+        </li>
+    #{/else}
+</ul>
