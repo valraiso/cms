@@ -46,6 +46,7 @@ var cms = {
     , modified : false
     , toolbar_opened : false
     , opts : {
+        absoluteURLs: false,
         cssClass : 'el-rte cmsrte',
         lang     : 'fr',
         toolbar  : 'complete',
