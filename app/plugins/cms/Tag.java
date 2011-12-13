@@ -38,7 +38,7 @@ public class Tag {
         String content = "";
         
         CmsContext cmsContext = CmsContext.current();
-                
+
         if (isCmsEditingAuthorized() && !cmsContext._tagGenerated ){
             
             content += generateCommon();
@@ -46,23 +46,24 @@ public class Tag {
         }
         
         Editor editor = Editor.findByPathAndCodeAndLanguage(path, code, lang);
-        
+
+        String htmlContent="";        
         if (editor != null){
-            content += editor.content;
+            htmlContent += editor.content;
         }
 
         if (isCmsEditingAuthorized()){
             
-            content = "<div class=\"cms_editor\" data-code=\""+code+"\">" + content;
+            htmlContent = "<div class=\"cms_editor\" data-code=\""+code+"\">" + htmlContent;
             
             if ((editor == null || editor.content.isEmpty())){
-                content += CmsContext.Constant.CMS_EDITOR_DEFAULT;
+                htmlContent += CmsContext.Constant.CMS_EDITOR_DEFAULT;
             }
             
-            content += "</div>";
+            htmlContent += "</div>";
         }
         
-        return content;
+        return content + htmlContent;
     }
     
     public static String login(){
