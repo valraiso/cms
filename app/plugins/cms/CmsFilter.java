@@ -76,9 +76,22 @@ public class CmsFilter extends PlayPlugin {
                 request.path = mappedItem.source;
             }
         }
-		else if (domain != null && !lang.equals(domain.defaultLocale) && !resource.equals("/")) {
+		else  {
 			
-			request.path = Router.reverse("cms.CmsController.pageNotFound").url;
+            NavigationItem item = NavigationCache.get(resource);
+            
+            if (item == null) {
+                
+                Route route = null;
+
+                try {
+                    route = Router.route(request);
+                } catch(Exception ex) {}
+
+                if (route == null){
+                    request.path = Router.reverse("cms.CmsController.pageNotFound").url;
+                }
+            }
 		}
     }
     
