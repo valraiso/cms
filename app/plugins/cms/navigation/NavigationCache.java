@@ -183,9 +183,7 @@ public class NavigationCache {
         
         for (NavigationPlugin plugin : plugins) {
             
-            String path = plugin.getPath();
-                        
-            if (resource.startsWith(path)) {
+            if (plugin.isApplicableForResource(resource)){
                 return plugin;
             }
         }

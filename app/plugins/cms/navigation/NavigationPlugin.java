@@ -110,6 +110,13 @@ public abstract class NavigationPlugin {
     }
 
     /**
+     * Returns if the plugin is applicable for the resource
+     * @return the path
+     */
+    public abstract boolean isApplicableForResource(String resource);
+
+
+    /**
      * Returns the "pathInfo" for this resource (technical URL) by stripping the
      * attachment path.
      * 
