@@ -4,6 +4,7 @@ import java.util.List;
 import models.cms.Editor;
 import models.cms.NavigationItem;
 import models.cms.NavigationMappedItem;
+import plugins.cms.navigation.NavigationCache;
 import models.cms.Role;
 import models.cms.Translation;
 import models.cms.User;
