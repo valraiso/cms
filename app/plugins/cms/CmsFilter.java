@@ -73,7 +73,19 @@ public class CmsFilter extends PlayPlugin {
             }
             else {
                 
+                /*
+                    check if a virtual page is defined for this mappedItem
+                */
+                VirtualPage virtualPage = NavigationCache.getVirtualPage(mappedItem.source);
+                if (virtualPage != null){
+                    
+                    // handle virtual page
+                    request.path = Router.reverse("cms.CmsController.virtualPage").url;
+                    return;
+                }
+
                 request.path = mappedItem.source;
+                return;
             }
         }
 		else  {

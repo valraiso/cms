@@ -24,7 +24,14 @@ public class Tag {
     }
     
     public static String url(String path){
-        
+
+        String lang = Lang.get();
+        NavigationMappedItem mappedItem = NavigationCache.getMappedItem(lang, path);
+        if (mappedItem != null){
+            
+            return mappedItem.destination;
+        }
+
         return path;
     }
     

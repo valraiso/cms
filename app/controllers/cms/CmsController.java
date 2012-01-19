@@ -72,8 +72,15 @@ public class CmsController extends Controller {
     
     public static void virtualPage(){
         
+        String lang     = Lang.get();
         String resource = request.path;
         
+        NavigationMappedItem mappedItem = NavigationCache.getMappedItem(lang, resource);
+        if (mappedItem != null){
+
+            resource = mappedItem.source;
+        }
+
         VirtualPage virtualPage = NavigationCache.getVirtualPage(resource);
         if (virtualPage != null){
             
