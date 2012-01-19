@@ -28,7 +28,7 @@ public class Tag {
     public static String url(String path){
 
         String lang = Lang.get();
-        NavigationMappedItem mappedItem = NavigationCache.getMappedItem(lang, path);
+        NavigationMappedItem mappedItem = NavigationCache.getReverseMappedItem(lang, path);
         if (mappedItem != null){
             
             return mappedItem.destination;

@@ -27,6 +27,7 @@ public class NavigationCache {
     private static Map<String, VirtualPage>    virtualPages    = new HashMap<String, VirtualPage>();
     
     private static Map<String, Map<String, NavigationMappedItem>> mappedItemsByLangs = new HashMap<String, Map<String, NavigationMappedItem>>();
+    private static Map<String, Map<String, NavigationMappedItem>> reverseMappedItemsByLangs = new HashMap<String, Map<String, NavigationMappedItem>>();
     
     
     public static void init() {
@@ -73,20 +74,29 @@ public class NavigationCache {
     public static void initNavigationMappedItem(){
         
         mappedItemsByLangs.clear();
-        
+        reverseMappedItemsByLangs.clear();
+
         List<NavigationMappedItem> navigationMappedItems = NavigationMappedItem.findAll();
         for (NavigationMappedItem mappedItem : navigationMappedItems){
             
             String lang = mappedItem.language;
             
             Map<String,NavigationMappedItem> mappedItemsByLang = mappedItemsByLangs.get(lang);
+            Map<String,NavigationMappedItem> reverseMappedItemsByLang = reverseMappedItemsByLangs.get(lang);
             if (mappedItemsByLang == null){
                 
                 mappedItemsByLang = new HashMap<String, NavigationMappedItem>();
             }
+            if (reverseMappedItemsByLang == null){
+                
+                reverseMappedItemsByLang = new HashMap<String, NavigationMappedItem>();
+            }
             
             mappedItemsByLang.put(mappedItem.destination, mappedItem);
             mappedItemsByLangs.put(lang, mappedItemsByLang);
+
+            reverseMappedItemsByLang.put(mappedItem.source, mappedItem);
+            reverseMappedItemsByLangs.put(lang, reverseMappedItemsByLang);
         }
     }
     
@@ -214,6 +224,18 @@ public class NavigationCache {
         return mappedItems.get(resource);
     }
     
+    public static NavigationMappedItem getReverseMappedItem (String lang, String resource) {
+        
+        Map<String, NavigationMappedItem> mappedItems = reverseMappedItemsByLangs.get(lang);
+        
+        if (mappedItems == null){
+            
+            return null;
+        }
+        
+        return mappedItems.get(resource);
+    }
+
     public static void loadPlugins(){
         
         for (ApplicationClasses.ApplicationClass c : Play.classes.getAssignableClasses(NavigationPlugin.class)) {
