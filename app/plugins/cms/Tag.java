@@ -3,6 +3,7 @@ package plugins.cms;
 import java.util.List;
 import models.cms.Editor;
 import models.cms.NavigationItem;
+import models.cms.NavigationMappedItem;
 import models.cms.Role;
 import models.cms.Translation;
 import models.cms.User;
