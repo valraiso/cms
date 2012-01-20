@@ -16,10 +16,10 @@ public class VirtualPage extends Model {
     @Column(nullable=false,length=128)
     public String path;
 
-    @Column(nullable=false,length=255)
     public String view;
     
-    
+    public String action;
+
     public static VirtualPage findByPath(String path) {
         
         String jpql = " SELECT v"

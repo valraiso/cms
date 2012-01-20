@@ -59,7 +59,7 @@ public class CmsFilter extends PlayPlugin {
         if (virtualPage != null){
             
             // handle virtual page
-            request.path = Router.reverse("cms.CmsController.virtualPage").url;
+            request.path = handleVirtualPage(virtualPage);
             return;
         }
         
@@ -80,7 +80,7 @@ public class CmsFilter extends PlayPlugin {
                 if (virtualPage != null){
                     
                     // handle virtual page
-                    request.path = Router.reverse("cms.CmsController.virtualPage").url;
+                    request.path = handleVirtualPage(virtualPage);
                     return;
                 }
 
@@ -212,4 +212,11 @@ public class CmsFilter extends PlayPlugin {
 				|| path.startsWith("/--cms/")
         );
 	}
+
+    private String handleVirtualPage(VirtualPage virtualPage){
+        
+        String action = (virtualPage.action != null) ? virtualPage.action : "cms.CmsController.virtualPage";
+
+        return Router.reverse(action).url;
+    }
 }

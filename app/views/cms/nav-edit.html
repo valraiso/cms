@@ -34,7 +34,8 @@
                     <td>Modèle</td>
                     <td>
                         #{if templates.size > 0}
-                        <select name="template">
+                        <select name="virtualpagetemplateid">
+                            <option value="-1">Aucun modèle associé</option>
                             #{list templates, as:'tpl'}
                             <option value="${tpl.id}">${tpl.name}</option>
                             #{/list}

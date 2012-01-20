@@ -14,4 +14,6 @@ public class VirtualPageTemplate extends Model{
     public String name;
     
     public String view;
+
+    public String action;
 }

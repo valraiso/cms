@@ -292,12 +292,29 @@ public class CmsController extends Controller {
                     
                     seo.save();
                 }
-                
+
                 VirtualPage vp = VirtualPage.findByPath(navItem.path);
                 if (vp != null){
                     
                     vp.path = newpath;
                     vp.save();
+                }
+
+                Long virtualpagetemplateid = params.get("virtualpagetemplateid", Long.class);
+                VirtualPageTemplate virtualPageTemplate = VirtualPageTemplate.findById(virtualpagetemplateid);
+                if (virtualPageTemplate != null){
+                    
+                    if (vp == null){
+                        vp = new VirtualPage();
+                        vp.path = newpath;
+                    }
+                    vp.view   = virtualPageTemplate.view;
+                    vp.action = virtualPageTemplate.action;
+                    vp.save();
+                }
+                else if (virtualpagetemplateid != null && vp != null){
+                    
+                    vp.delete();
                 }
                 
                 navItem.active = (params.get("navitem_active") != null);
