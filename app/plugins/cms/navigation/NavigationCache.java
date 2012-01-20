@@ -104,6 +104,8 @@ public class NavigationCache {
 
     public static void initPluginsNavigation(){
         
+        Map<String, NavigationItem> navItems = new HashMap<String, NavigationItem>();
+
         for (NavigationItem item : items.values()){       
         
             for (NavigationPlugin plugin : plugins){
@@ -117,7 +119,7 @@ public class NavigationCache {
 
                     for (NavigationItem i : childrens){
                         
-                        items.put(i.path, i);
+                        navItems.put(i.path, i);
                         List<NavigationMappedItem> mappedItems = nav.get(i);
                         if (mappedItems != null){
                             
@@ -142,13 +144,12 @@ public class NavigationCache {
                                 reverseMappedItemsByLang.put(m.source, m);
                                 reverseMappedItemsByLangs.put(lang, reverseMappedItemsByLang);
                             }
-
                         }
-                        
                     }
                 }
             }
         }
+        items.putAll(navItems);
     }
     
     public static NavigationItem get(String path) {
