@@ -18,3 +18,5 @@ POST	/--cms/navigation/edit          cms.CmsController.edit
 POST    /--cms/editor/save          	cms.EditorController.save
 *       /--cms/editor/browser          	cms.EditorController.browser
 GET     /public/files/{<.+>filepath}    cms.FileController.files
+
+GET     /--debug						cms.NavDebugController.index

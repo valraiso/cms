@@ -1,0 +1,12 @@
+
+<tr>
+	<td>${current.item?.path}</td>
+	<td>${current.mappedItem?.source}</td>
+	<td>${current.mappedItem?.destination}</td>
+</tr>
+#{list current.childrens, as:'child'}
+%{
+	current = child
+}%
+#{include 'debug/tree.html'/}
+#{/list}

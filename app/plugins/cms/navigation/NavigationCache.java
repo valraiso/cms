@@ -39,6 +39,8 @@ public class NavigationCache {
         initNavigationItem();
         
         initNavigationMappedItem();
+
+        initPluginsNavigation();
     }
 	
 	public static void initDomains(){
@@ -81,7 +83,7 @@ public class NavigationCache {
             
             String lang = mappedItem.language;
             
-            Map<String,NavigationMappedItem> mappedItemsByLang = mappedItemsByLangs.get(lang);
+            Map<String,NavigationMappedItem> mappedItemsByLang        = mappedItemsByLangs.get(lang);
             Map<String,NavigationMappedItem> reverseMappedItemsByLang = reverseMappedItemsByLangs.get(lang);
             if (mappedItemsByLang == null){
                 
@@ -99,6 +101,55 @@ public class NavigationCache {
             reverseMappedItemsByLangs.put(lang, reverseMappedItemsByLang);
         }
     }
+
+    public static void initPluginsNavigation(){
+        
+        for (NavigationItem item : items.values()){       
+        
+            for (NavigationPlugin plugin : plugins){
+                
+                Map<NavigationItem, List<NavigationMappedItem>> nav = plugin.buildNavigation(item);
+
+                if (nav != null){
+                    
+                    List<NavigationItem> childrens = new ArrayList(nav.keySet());
+                    item.children = childrens;
+
+                    for (NavigationItem i : childrens){
+                        
+                        items.put(i.path, i);
+                        List<NavigationMappedItem> mappedItems = nav.get(i);
+                        if (mappedItems != null){
+                            
+                            for (NavigationMappedItem m : mappedItems){
+                            
+                                String lang = m.language;
+                
+                                Map<String,NavigationMappedItem> mappedItemsByLang        = mappedItemsByLangs.get(lang);
+                                Map<String,NavigationMappedItem> reverseMappedItemsByLang = reverseMappedItemsByLangs.get(lang);
+                                if (mappedItemsByLang == null){
+                                    
+                                    mappedItemsByLang = new HashMap<String, NavigationMappedItem>();
+                                }
+                                if (reverseMappedItemsByLang == null){
+                                    
+                                    reverseMappedItemsByLang = new HashMap<String, NavigationMappedItem>();
+                                }
+                                
+                                mappedItemsByLang.put(m.destination, m);
+                                mappedItemsByLangs.put(lang, mappedItemsByLang);
+
+                                reverseMappedItemsByLang.put(m.source, m);
+                                reverseMappedItemsByLangs.put(lang, reverseMappedItemsByLang);
+                            }
+
+                        }
+                        
+                    }
+                }
+            }
+        }
+    }
     
     public static NavigationItem get(String path) {
     
@@ -110,6 +161,7 @@ public class NavigationCache {
         for (NavigationItem currentChild : children) {
 
             List<NavigationItem> currentChildren = currentChild.children;
+            /*
             boolean createdByPlugin = false;
 
             if (currentChildren == null || currentChildren.isEmpty()) {
@@ -117,16 +169,17 @@ public class NavigationCache {
                 createdByPlugin = createItemsByPlugin(currentChild);
             }
             if (!createdByPlugin) {
-
+            */
                 String currentPath = currentChild.path;
 
                 createItemsForNavigationItems(currentChildren);
                 NavigationItem.em().detach(currentChild);
                 items.put(currentPath, currentChild);
-            }
+            //}
         }
     }
 
+    /*
     private static boolean createItemsByPlugin(NavigationItem parent) {
 
         String parentPath = parent.path;
@@ -181,6 +234,7 @@ public class NavigationCache {
             }
         }
     }
+    */
     
     /**
      * Loads the plugin matching the requestedResource
@@ -189,6 +243,7 @@ public class NavigationCache {
      * @param resource
      * @return the plugin
      */
+     /*
     public static NavigationPlugin findPlugin (String resource) {
         
         for (NavigationPlugin plugin : plugins) {
@@ -200,6 +255,7 @@ public class NavigationCache {
         
         return null;
     }
+    */
 	
 	public static Domain getDomain (String host) {
         
