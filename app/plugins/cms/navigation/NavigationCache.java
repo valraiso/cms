@@ -152,11 +152,6 @@ public class NavigationCache {
         items.putAll(navItems);
     }
     
-    public static NavigationItem get(String path) {
-    
-        return items.get(path);
-    }
-
     private static void createItemsForNavigationItems(List<NavigationItem> children) {
 
         for (NavigationItem currentChild : children) {
@@ -257,6 +252,11 @@ public class NavigationCache {
         return null;
     }
     */
+
+    public static NavigationItem get(String path) {
+    
+        return items.get(path);
+    }
 	
 	public static Domain getDomain (String host) {
         

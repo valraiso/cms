@@ -111,6 +111,9 @@ public class Tag {
     
     public static NavigationItem rootNavigationItem(){
         
+        return NavigationCache.get("/");
+
+        /*
         List<NavigationItem> items = NavigationItem.findByParent(null);
         
         if (items.isEmpty()){
@@ -118,6 +121,7 @@ public class Tag {
         }
         
         return items.get(0);
+        */
     }
     
     private static String generateCommon(){
