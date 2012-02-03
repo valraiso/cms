@@ -20,3 +20,5 @@ POST    /--cms/editor/save          	cms.EditorController.save
 GET     /public/files/{<.+>filepath}    cms.FileController.files
 
 GET     /--debug						cms.NavDebugController.index
+
+GET     /sitemap.xml					cms.SitemapController.index 

@@ -152,7 +152,7 @@ public class CmsFilter extends PlayPlugin {
 			return;
 		}
 		
-		String lang     = Lang.get();
+		String lang = Lang.get();
 		
 		
         /**

@@ -42,17 +42,17 @@ public class SeoParameter extends Model {
     public boolean inSitemap = true;
     
     
-    public static SeoParameter findByPathAndLang(String path, String lang){
+    public static SeoParameter findByPathAndLang(String path, String language){
         
         String oql = " SELECT s"
                     + " FROM   SeoParameter s"
                     + " WHERE  s.path = :path"
-                    + "     AND s.language = :lang";
+                    + "     AND s.language = :language";
 
         JPAQuery query = NavigationMappedItem.find(oql);
         
         query.bind("path", path);
-        query.bind("lang", lang);
+        query.bind("language", language);
         
         return query.first();
     }

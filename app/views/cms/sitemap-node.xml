@@ -1,0 +1,13 @@
+#{if node.show}
+<url>
+  <loc>http://${host}${current.url}</loc>
+  <changefreq>${current.frequency}</changefreq>
+  <priority>${current.priority}</priority>
+</url>
+#{/if}
+#{list current.childs, as: 'node'}
+    %{ 
+    	current = node;
+    }%
+    #{include 'cms/sitemap-node.xml'/}
+#{/list}

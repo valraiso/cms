@@ -115,7 +115,7 @@ public class NavigationCache {
                 if (nav != null){
                     
                     List<NavigationItem> childrens = new ArrayList(nav.keySet());
-                    item.children = childrens;
+                    item.children.addAll(childrens);
 
                     for (NavigationItem i : childrens){
                         
@@ -174,84 +174,6 @@ public class NavigationCache {
             //}
         }
     }
-
-    /*
-    private static boolean createItemsByPlugin(NavigationItem parent) {
-
-        String parentPath = parent.path;
-        NavigationPlugin plugin = findPlugin(parentPath);
-
-        if (plugin != null) {
-
-            List<NavigationItem> children;
-
-            //Good practice : Set Transient field in findCurrentNavigationItem implementation
-            parent = plugin.findCurrentNavigationItem(parent, items);
-            children = parent.children;
-
-            if (children != null && !children.isEmpty()) {
-
-                NavigationItem firstChild = children.get(0);
-                NavigationPlugin navigationPlugin = firstChild.navigationPlugin;
-
-                if (navigationPlugin == null) {
-
-                    setPlugin(parent, plugin);
-                }
-            }
-
-            NavigationItem.em().detach(parent);
-            items.put(parentPath, parent);
-
-            return true;
-        }
-
-        return false;
-    }
-
-    private static void setPlugin(NavigationItem parent, NavigationPlugin plugin) {
-
-        if (parent == null || plugin == null) {
-
-            return;
-        }
-
-        List<NavigationItem> brothers = parent.children;
-
-        for (NavigationItem item : brothers) {
-
-            List<NavigationItem> children = item.children;
-
-            item.navigationPlugin = plugin;
-
-            if (children != null && !children.isEmpty()) {
-
-                setPlugin(item, plugin);
-            }
-        }
-    }
-    */
-    
-    /**
-     * Loads the plugin matching the requestedResource
-     * 
-     * @param contextPath
-     * @param resource
-     * @return the plugin
-     */
-     /*
-    public static NavigationPlugin findPlugin (String resource) {
-        
-        for (NavigationPlugin plugin : plugins) {
-            
-            if (plugin.isApplicableForResource(resource)){
-                return plugin;
-            }
-        }
-        
-        return null;
-    }
-    */
 
     public static NavigationItem get(String path) {
     

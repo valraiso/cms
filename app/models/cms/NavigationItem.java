@@ -12,7 +12,7 @@ import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import play.db.jpa.Model;
 import plugins.cms.navigation.NavigationPlugin;
-
+import java.util.*;
 /** 
  * @author benoit
  */
@@ -44,7 +44,7 @@ public class NavigationItem extends Model {
 
     @OneToMany(mappedBy = "parent",fetch=FetchType.EAGER)
     @OrderBy("position,name")
-    public List<NavigationItem> children;
+    public List<NavigationItem> children = new ArrayList<NavigationItem>();
 
     public boolean isParentOf (String path) {
 

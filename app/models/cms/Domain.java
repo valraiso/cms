@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinTable;
 import javax.persistence.Table;
 import play.db.jpa.Model;
+import java.util.*;
 
 /**
  * @author benoit
@@ -27,4 +28,24 @@ public class Domain extends Model {
     @ElementCollection
     @JoinTable(name="cms_supported_locale")
     public List<String> supportedLocales;
+
+    public String getDefaultLang(){
+        if (defaultLocale == null||defaultLocale.isEmpty()||!defaultLocale.contains("_")){
+            return null;
+        }
+        return defaultLocale.split("_")[0];
+    }
+    
+    public List<String> getSupportedLang(){
+        if (this.supportedLocales == null){
+            return null;
+        }
+        List<String> supportedLang = new ArrayList<String>();
+        for (String current : supportedLocales){
+            if (current != null && !current.isEmpty() && current.contains("_")){
+                supportedLang.add(current.split("_")[0]);
+            }
+        }
+        return supportedLang;
+    }
 }
