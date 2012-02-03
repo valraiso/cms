@@ -7,6 +7,7 @@ import play.i18n.Lang;
 import play.mvc.Http;
 import play.mvc.Router.ActionDefinition;
 import play.mvc.Scope;
+import play.mvc.Http.Request;
 
 /**
  * @author benoit
