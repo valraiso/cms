@@ -31,6 +31,20 @@ public class Tag {
 
         return path;
     }
+
+    public static String fullUrl(String path) {
+        
+        Request request = Request.current();
+        String host = "http://"+ request.host;
+        if (path == null || path.isEmpty() ){
+            return host;
+        }
+        if (!path.startsWith("/")){
+            path = "/" + path;
+        }
+
+        return host + Tag.url( path);
+    }
     
     public static String editor(String code){
         
