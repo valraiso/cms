@@ -69,8 +69,12 @@ public class NavigationCache {
         
         items.clear();
         
-        List<NavigationItem> roots = NavigationItem.findByParent(null);       
-        createItemsForNavigationItems(roots);
+        List<NavigationItem> roots = NavigationItem.findByParent(null);
+        for (NavigationItem item : roots){
+
+            createItemsForNavigationItems(item);
+        }
+        
     }
     
     public static void initNavigationMappedItem(){
@@ -152,27 +156,17 @@ public class NavigationCache {
         items.putAll(navItems);
     }
     
-    private static void createItemsForNavigationItems(List<NavigationItem> children) {
+    private static void createItemsForNavigationItems(NavigationItem item) {
 
-        for (NavigationItem currentChild : children) {
+        
+        items.put(item.path, item);
 
-            List<NavigationItem> currentChildren = currentChild.children;
-            /*
-            boolean createdByPlugin = false;
+        List<NavigationItem> childrens = item.children;
+        for (NavigationItem i : childrens) {
 
-            if (currentChildren == null || currentChildren.isEmpty()) {
-
-                createdByPlugin = createItemsByPlugin(currentChild);
-            }
-            if (!createdByPlugin) {
-            */
-                String currentPath = currentChild.path;
-
-                createItemsForNavigationItems(currentChildren);
-                NavigationItem.em().detach(currentChild);
-                items.put(currentPath, currentChild);
-            //}
+            createItemsForNavigationItems(i);
         }
+        NavigationItem.em().detach(item);
     }
 
     public static NavigationItem get(String path) {

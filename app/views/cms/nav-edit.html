@@ -118,34 +118,34 @@
                     </tr>
                 </table>
 
-                <h3><a href="/--sitemap/${lang}" target="_blank">Sitemap.xml</a></h3>
-
-                <ul>
-                    <li>inclure <input type="checkbox" name="${lang}_insitemap" ${(seoParameter?.inSitemap) ? 'checked' : ''}/></li>
-                    <li>Fréquence 
-                        <select name="${lang}_freq">
-                            <option value="Always"  ${seoParameter?.frequency == 'Always'  ? 'selected' :''}>Always</option>
-                            <option value="Hourly"  ${seoParameter?.frequency == 'Hourly'  ? 'selected' :''}>Hourly</option> 
-                            <option value="Daily"   ${seoParameter?.frequency == 'Daily'   ? 'selected' :''}>Daily</option> 
-                            <option value="Weekly"  ${seoParameter?.frequency == 'Weekly'  ? 'selected' :''}>Weekly</option> 
-                            <option value="Monthly" ${seoParameter?.frequency == 'Monthly' ? 'selected' :''}>Monthly</option> 
-                            <option value="Yearly"  ${seoParameter?.frequency == 'Yearly'  ? 'selected' :''}>Yearly</option> 
-                            <option value="Never"   ${seoParameter?.frequency == 'Never'   ? 'selected' :''}>Never</option> 
-                        </select>
-                    </li>
-                    <li>Priorité 
-                        %{selectedPrio = (seoParameter?.priority == null) ? '0.8' : seoParameter.priority}%
-                        <select name="${lang}_prio">
-                            #{list items:1..9, as:'i'}
-                                %{prio = "0."+i}%
-                                <option value="${prio}" ${selectedPrio == prio ? 'selected' : ''}>${prio}</option>
-                            #{/list}
-                        </select>
-                    </li>
-                </ul>
-                </div>
-            #{/list}      
-
+                <fieldset>
+                    <legend>Sitemap.xml</legend>
+                    <div class="form-horizontal">
+                        <label class="control-label" style="margin-top:3px">inclure <input type="checkbox" name="${lang}_insitemap" ${(seoParameter?.inSitemap) ? 'checked' : ''}/></label>
+                        <label class="control-label" for="${lang}_freq">Fréquence
+                            <select name="${lang}_freq" id="${lang}_freq">
+                                <option value="Always"  ${seoParameter?.frequency == 'Always'  ? 'selected' :''}>Always</option>
+                                <option value="Hourly"  ${seoParameter?.frequency == 'Hourly'  ? 'selected' :''}>Hourly</option> 
+                                <option value="Daily"   ${seoParameter?.frequency == 'Daily'   ? 'selected' :''}>Daily</option> 
+                                <option value="Weekly"  ${seoParameter?.frequency == 'Weekly'  ? 'selected' :''}>Weekly</option> 
+                                <option value="Monthly" ${seoParameter?.frequency == 'Monthly' ? 'selected' :''}>Monthly</option> 
+                                <option value="Yearly"  ${seoParameter?.frequency == 'Yearly'  ? 'selected' :''}>Yearly</option> 
+                                <option value="Never"   ${seoParameter?.frequency == 'Never'   ? 'selected' :''}>Never</option> 
+                            </select>
+                        </label>
+                        <label class="control-label" for="${lang}_prio">Priorité
+                            %{selectedPrio = (seoParameter?.priority == null) ? '0.8' : seoParameter.priority}%
+                            <select name="${lang}_prio" id="${lang}_prio">
+                                #{list items:1..9, as:'i'}
+                                    %{prio = "0."+i}%
+                                    <option value="${prio}" ${selectedPrio == prio ? 'selected' : ''}>${prio}</option>
+                                #{/list}
+                            </select>
+                        </label>
+                        <div style="clear:both"></div>
+                    </div>
+                </fieldset>
+            #{/list}
         </div>
     </form>
 </div>

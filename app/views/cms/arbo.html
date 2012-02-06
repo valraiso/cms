@@ -10,6 +10,7 @@
         #{/if}
         #{else}
         #{list items : navItem.children, as : 'item'}
+        #{if item.navigationPlugin == null}
         <li id="cms_nav${item.id}" #{if item == openedNavItem}class="firstopened"#{/if}>
             <a href="#">${item.name}</a>
             
@@ -18,6 +19,7 @@
                 #{include '/cms/arbo.html'/}
             #{/if}
         </li>
+        #{/if}
         #{/list}
         #{/else}
     #{/if}

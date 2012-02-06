@@ -1,18 +1,14 @@
 package models.cms;
 
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
+import plugins.cms.navigation.NavigationCache;
 import play.db.jpa.Model;
 import plugins.cms.navigation.NavigationPlugin;
 import java.util.*;
+import play.db.jpa.*;
+
+
 /** 
  * @author benoit
  */
@@ -42,8 +38,8 @@ public class NavigationItem extends Model {
     @Transient
     public NavigationPlugin navigationPlugin = null;
 
-    @OneToMany(mappedBy = "parent",fetch=FetchType.EAGER)
     @OrderBy("position,name")
+    @OneToMany(mappedBy = "parent",fetch=FetchType.EAGER)
     public List<NavigationItem> children = new ArrayList<NavigationItem>();
 
     public boolean isParentOf (String path) {
@@ -61,7 +57,16 @@ public class NavigationItem extends Model {
         return false;
     }
     
+    @PostPersist @PostUpdate @PostRemove
+    private void clearcache(){
+
+        if (parent != null){
+            JPA.em().refresh(parent);
+        }
+        NavigationCache.init();
+    }
     
+   
     public static NavigationItem findRoot(){
         
         String jpql = " SELECT ni"
@@ -99,7 +104,7 @@ public class NavigationItem extends Model {
             oql += " = :parent";
         }
         
-        oql += " ORDER BY n.position";
+        oql += " ORDER BY n.position,n.name";
         
         JPAQuery query = NavigationItem.find(oql);
             

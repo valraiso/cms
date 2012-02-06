@@ -188,22 +188,24 @@ var cms = {
                             '</div>');
                         
             
-            depend.on('/public/javascripts/treejs/jquery.jstree.js', function (){
-
-                $("#cms_nav").load('/--cms/navigation', {path : cms.requestedResource}, function (){
-                    
-                   $.getScript('/public/cms/cms-nav.js', function (){
-
-                        $(".cms_overlaybox").overlay().load();
-                    }); 
-                });
-            });
-            
             
         }
         else {
             $(".cms_overlaybox").overlay().load();
         }
+
+        setTimeout(function (){
+            depend.on('/public/javascripts/treejs/jquery.jstree.js', function (){
+
+                $.post('/--cms/navigation', {path : cms.requestedResource}, function (data){
+                    $("#cms_nav").html(data);
+                    $.getScript('/public/cms/cms-nav.js', function (){
+
+                        $(".cms_overlaybox").overlay().load();
+                    }); 
+                })
+            });
+        }, 10);
     }
 };
 

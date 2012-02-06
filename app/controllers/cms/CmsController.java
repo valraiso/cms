@@ -24,6 +24,9 @@ import plugins.cms.CmsContext;
 import java.util.ArrayList;
 import java.util.Arrays;
 import play.Play;
+
+import play.db.jpa.*;
+
 /**
  * @author benoit
  */
@@ -113,10 +116,10 @@ public class CmsController extends Controller {
         try {
             NavigationItem parentItem = NavigationItem.findById(parentid);
 
-            String path = "/" + JavaExtensions.slugify(name);
+            String path = JavaExtensions.slugify(name);
             if (parentItem != null){
 
-                path = parentItem.path + path;
+                path = parentItem.path +(parentItem.path.endsWith("/") ? path : "/" + path);
             }
 
             NavigationItem navigationItem = new NavigationItem();
@@ -125,15 +128,17 @@ public class CmsController extends Controller {
             navigationItem.parent   = parentItem;
             navigationItem.position = pos;
 
-            
             navigationItem.save();
+            
             result.put("id", navigationItem.id);
             status = true;
-            
         }
-        catch (Exception ex) {}
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
         
         result.put("status", status);
+
         renderJSON(result);
     }
     
@@ -300,8 +305,12 @@ public class CmsController extends Controller {
                     vp.save();
                 }
 
+                VirtualPageTemplate virtualPageTemplate = null;
                 Long virtualpagetemplateid = params.get("virtualpagetemplateid", Long.class);
-                VirtualPageTemplate virtualPageTemplate = VirtualPageTemplate.findById(virtualpagetemplateid);
+                if (virtualpagetemplateid != null){
+
+                    virtualPageTemplate = VirtualPageTemplate.findById(virtualpagetemplateid);  
+                } 
                 if (virtualPageTemplate != null){
                     
                     if (vp == null){
@@ -321,9 +330,6 @@ public class CmsController extends Controller {
                 navItem.path   = newpath;
                 navItem.save();
                 
-				NavigationCache.initNavigationItem();
-				NavigationCache.initNavigationMappedItem();
-				NavigationCache.initVirtualPage();
                 success = true;
             }
             catch (Exception ex) {
