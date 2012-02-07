@@ -9,13 +9,25 @@ import play.mvc.Controller;
  */
 public class FileController extends Controller {
     
-    public static void files(String filepath) {
+    public static File getOrCreateUploadFolder(){
         
         String rootPath = Play.applicationPath.getAbsolutePath();
+        
         rootPath = rootPath.substring(0, rootPath.lastIndexOf("/"));
         rootPath += "/__files/" + Play.configuration.getProperty("application.name");
         
-        File file = new File(rootPath, filepath);
+        File root = new File(rootPath);
+        if(!root.exists()){
+            root.mkdirs();
+        }
+
+        return root;
+    }
+
+    public static void files(String filepath) {
+        
+        File root = FileController.getOrCreateUploadFolder();
+        File file = new File(root, filepath);
         
         if (file.exists() && file.isFile()){
             renderBinary(file);

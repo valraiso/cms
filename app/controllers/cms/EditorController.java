@@ -55,15 +55,7 @@ public class EditorController extends Controller {
 
     public static void browser(Upload[] upload) throws Exception {
 
-        String rootPath = Play.applicationPath.getAbsolutePath();
-        
-        rootPath = rootPath.substring(0, rootPath.lastIndexOf("/"));
-        rootPath += "/__files/" + Play.configuration.getProperty("application.name");
-        
-        File root = new File(rootPath);
-        if(!root.exists()){
-            root.mkdirs();
-        }
+        File root = FileController.getOrCreateUploadFolder();
         
         List<File> fileArray = new ArrayList<File>();
         if (upload != null){
