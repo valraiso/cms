@@ -57,11 +57,14 @@ public class NavigationItem extends Model {
         return false;
     }
     
-    @PostPersist @PostUpdate @PostRemove
+    @PostPersist @PostUpdate
     private void clearcache(){
 
         if (parent != null){
-            JPA.em().refresh(parent);
+            EntityManager em = JPA.em();
+            if (em.contains(parent)){
+                em.refresh(parent);
+            }
         }
         NavigationCache.init();
     }

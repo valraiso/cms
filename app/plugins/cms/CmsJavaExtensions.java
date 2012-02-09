@@ -30,4 +30,21 @@ public class CmsJavaExtensions extends JavaExtensions{
         
         return StringEscapeUtils.unescapeHtml(string);
     }
+
+    public static String crop(String toCrop, int size){
+
+        return crop(toCrop, size, "...");
+    }
+
+    public static String crop(String toCrop, int size, String replacement){
+
+        int length = replacement.length();
+
+        if (toCrop == null || toCrop.length() + length < size ){
+            return toCrop;
+        }
+        toCrop = toCrop.substring(0, size - length);
+        toCrop = toCrop.concat(replacement);
+        return toCrop;
+    }
 }

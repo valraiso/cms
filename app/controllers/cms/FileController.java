@@ -36,4 +36,18 @@ public class FileController extends Controller {
             error(404, "File not Found");
         }
     }
+
+    /**
+    * Remove a file in upload folder
+    * @param fileName
+    * @return boolean
+    */
+   public static boolean removeFile(String fileName){
+       File folder = getOrCreateUploadFolder();
+       File file   = new File(folder, fileName);
+       if (!file.exists()){
+           return false;
+       }
+       return file.delete();
+   }
 }

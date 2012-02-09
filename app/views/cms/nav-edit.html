@@ -17,11 +17,29 @@
         
         <div id="cms_nav_urls" class="cms_tab-content ${(selectedTab == '#cms_nav_urls') ? 'active' : ''}">
 
+            #{list mappedItems.keySet(), as:'lang'}
+
+                %{
+                    mappedItem = mappedItems.get(lang)
+                    url = (mappedItem == null && lang == 'fr') ? navItem.path : mappedItem?.destination;
+                }%
+
+                <table class="cms_bloc ${lang} #{if lang == selectedLang}active#{/if}">
+                    <tr>
+                        <td>URL</td>
+                        <td><input type="text" name="${lang}_url" value="${url}"/></td>
+                    </tr>
+                    <tr>
+                        <td>Libellé</td>
+                        <td><input type="text" name="${lang}_trad" value="${cms.translate(navItem.name, lang)}"/></td>
+                    </tr>                    
+                </table>
+
+            #{/list}
+
+            <hr/>
+
             <table>
-                <tr>
-                    <td style="width:80px;">Nom</td>
-                    <td>${navItem.name}</td>
-                </tr>
 
                 #{if virtualPage != null && virtualPageTemplate == null}
                 <tr>
@@ -37,7 +55,7 @@
                         <select name="virtualpagetemplateid">
                             <option value="-1">Aucun modèle associé</option>
                             #{list templates, as:'tpl'}
-                            <option value="${tpl.id}">${tpl.name}</option>
+                            <option value="${tpl.id}" ${(virtualPageTemplate?.id == tpl.id) ? 'selected' : ''}>${tpl.name}</option>
                             #{/list}
                         </select>
                         #{/if}
@@ -48,35 +66,12 @@
                 </tr>
                 #{/else}
                 <tr>
-                    <td>Visibilité</td>
+                    <td>Visible</td>
                     <td>
                         <input id="navitem_active" type="checkbox" name="navitem_active" style="width:15px" ${(navItem.active) ? 'checked' : ''}/>
-                        <label for="navitem_active">actif</label>
                     </td>
                 </tr>
             </table>
-
-            <hr/>
-
-            #{list mappedItems.keySet(), as:'lang'}
-
-                %{
-                    mappedItem = mappedItems.get(lang)
-                    url = (mappedItem == null && lang == 'fr') ? navItem.path : mappedItem?.destination;
-                }%
-
-                <table class="cms_bloc ${lang} #{if lang == selectedLang}active#{/if}">
-                    <tr>
-                        <td>url</td>
-                        <td><input type="text" name="${lang}_url" value="${url}"/></td>
-                    </tr>
-                    <tr>
-                        <td>trad</td>
-                        <td><input type="text" name="${lang}_trad" value="${cms.translate(navItem.name, lang)}"/></td>
-                    </tr>                    
-                </table>
-
-            #{/list}
 
         </div>
         <div id="cms_nav_seo" class="cms_tab-content ${(selectedTab == '#cms_nav_seo') ? 'active' : ''}">

@@ -175,19 +175,40 @@ public class CmsController extends Controller {
         NavigationItem navItem= NavigationItem.findById(navid);
         if (navItem != null){
             
-            List<NavigationMappedItem> mappedItems = NavigationMappedItem.findBySource(navItem.path);
-            for (NavigationMappedItem mappedItem : mappedItems){
-                
-                mappedItem.delete();
+            recursRemove(navItem);
+            if (navItem.parent != null){
+                JPA.em().refresh(navItem.parent);
             }
-            
-            navItem.delete();
+            NavigationCache.init();
             status = true;
         }
         
         result.put("status", status);
         renderJSON(result);
     }
+
+    private static void recursRemove(NavigationItem item) {
+        
+        for (NavigationItem i : NavigationItem.findByParent(item)){
+            
+            recursRemove(i);
+        }
+
+        List<NavigationMappedItem> mappedItems = NavigationMappedItem.findBySource(item.path);
+        for (NavigationMappedItem mappedItem : mappedItems){
+            
+            mappedItem.delete();
+        }
+
+        VirtualPage vp = VirtualPage.findByPath(item.path);
+        if (vp != null){
+            
+            vp.delete();
+        }
+        
+        item.delete();
+    }
+
     
     public static void move(Long parentid, Long navid, Long pos){
         
