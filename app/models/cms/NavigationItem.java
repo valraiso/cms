@@ -48,7 +48,7 @@ public class NavigationItem extends Model {
     public List<NavigationItem> getChildren() {
         
         if (childs == null){
-            
+
             /**
             * don't attempt to retrieve entity not managed by JPA
             **/
@@ -66,7 +66,7 @@ public class NavigationItem extends Model {
 
     public void addChilds(List<NavigationItem> childs){
         getChildren();
-        childs.addAll(childs);
+        this.childs.addAll(childs);
     }
 
 
