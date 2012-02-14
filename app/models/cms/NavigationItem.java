@@ -49,7 +49,11 @@ public class NavigationItem extends Model {
         
         if (childs == null){
             
-            if (this.id != null){
+            /**
+            * don't attempt to retrieve entity not managed by JPA
+            **/
+            EntityManager em = JPA.em();
+            if (em.contains(this)){
                 childs = NavigationItem.findByParent(this);
             }
             else {
