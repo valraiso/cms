@@ -73,7 +73,7 @@ public class SitemapController extends Controller {
 		}
 
 		List<SitemapNode> nodes = new ArrayList<SitemapNode>();
-		for (NavigationItem i : item.children){
+		for (NavigationItem i : item.getChildren()){
 			
 			SitemapNode n = explore(i, lang, strict);
 			if (n != null){

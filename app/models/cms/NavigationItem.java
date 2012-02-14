@@ -42,6 +42,7 @@ public class NavigationItem extends Model {
     //@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     //public List<NavigationItem> children = new ArrayList<NavigationItem>();
 
+    @Transient
     private List<NavigationItem> childs = null;
 
     public List<NavigationItem> getChildren() {
@@ -88,7 +89,7 @@ public class NavigationItem extends Model {
                 
                 parent = NavigationItem.findById(parent.id);
             }
-            play.Logger.info("refresh -> [" + parent.id + "]");
+            
             em.refresh(parent);
         }
 
