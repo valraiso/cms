@@ -42,7 +42,7 @@ public class NavDebugController extends Controller {
             dto.mappedItem = NavigationCache.getReverseMappedItem(lang, path);
 
             List<NavDebugController.NavDTO> childs = new ArrayList<NavDebugController.NavDTO>();
-            for (NavigationItem i : item.children){
+            for (NavigationItem i : item.getChildren()){
                 
                 childs.add(buildNav(i.path, lang));
             }
