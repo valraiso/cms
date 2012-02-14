@@ -26,6 +26,7 @@ import java.util.Arrays;
 import play.Play;
 
 import play.db.jpa.*;
+import javax.persistence.*;
 
 /**
  * @author benoit
@@ -103,7 +104,9 @@ public class CmsController extends Controller {
             path = "/";
         }
         
-        NavigationItem openedNavItem = NavigationItem.findByPath(path);
+        play.Logger.info("manageNavigation");
+
+        NavigationItem openedNavItem = NavigationCache.get(path);
         
         renderTemplate("cms/navigation.html", openedNavItem);
     }
@@ -216,22 +219,27 @@ public class CmsController extends Controller {
         boolean status = false;
         
         try {
-            NavigationItem parent = NavigationItem.findById(parentid);
-        
-            List<NavigationItem> items = NavigationItem.findByParentAndPos(parent, pos);
-            int n=0;
-            for (NavigationItem ni : items){
-                ni.position = pos + n++;
-                ni.save();
-            }
 
-            NavigationItem navItem= NavigationItem.findById(navid);
+            NavigationItem parent    = NavigationItem.findById(parentid);
+            NavigationItem navItem   = NavigationItem.findById(navid);
+            NavigationItem oldParent = navItem.parent;
 
             navItem.parent   = parent;
             navItem.position = pos;
             navItem.save();
+
+            
+            /*
+            if (parent != null){
+                parent.children.add(navItem);
+                parent.save();
+            }
+            */
+            //NavigationCache.init();
         }
-        catch (Exception ex) {}
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
         
         result.put("status", status);
         renderJSON(result);

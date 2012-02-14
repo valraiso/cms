@@ -38,17 +38,25 @@ public class NavigationItem extends Model {
     @Transient
     public NavigationPlugin navigationPlugin = null;
 
-    @OrderBy("position,name")
-    @OneToMany(mappedBy = "parent",fetch=FetchType.EAGER)
-    public List<NavigationItem> children = new ArrayList<NavigationItem>();
+    //@OrderBy("position,name")
+    //@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+    //public List<NavigationItem> children = new ArrayList<NavigationItem>();
+
+    public List<NavigationItem> getChildren() {
+        
+        return NavigationItem.findByParent(this);
+    }
+
 
     public boolean isParentOf (String path) {
 
-        if (children == null) {
+        List<NavigationItem> childs = getChildren();
+
+        if (childs.isEmpty()) {
             return false;
         }
         
-        for (NavigationItem child : children) {
+        for (NavigationItem child : childs) {
             if (child.path.equals(path) || child.isParentOf(path)) {
                 return true;
             }
@@ -59,13 +67,19 @@ public class NavigationItem extends Model {
     
     @PostPersist @PostUpdate
     private void clearcache(){
-
+        
         if (parent != null){
+            
             EntityManager em = JPA.em();
-            if (em.contains(parent)){
-                em.refresh(parent);
+            
+            if (!em.contains(parent)){
+                
+                parent = NavigationItem.findById(parent.id);
             }
+            play.Logger.info("refresh -> [" + parent.id + "]");
+            em.refresh(parent);
         }
+
         NavigationCache.init();
     }
     

@@ -13,6 +13,8 @@ import models.cms.VirtualPage;
 import play.Logger;
 import play.Play;
 import play.classloading.ApplicationClasses;
+import javax.persistence.*;
+import play.db.jpa.*;
 
 /**
  * @author benoit
@@ -158,15 +160,22 @@ public class NavigationCache {
     
     private static void createItemsForNavigationItems(NavigationItem item) {
 
-        
+        EntityManager em = JPA.em();
+        em.refresh(item);
+
         items.put(item.path, item);
+
+        String parentid = item.parent != null ? String.valueOf(item.parent.id) : "null";
+        play.Logger.info(item.id + " -> " + parentid);
+        play.Logger.info(item.id + " has [" + item.children.size() + "]");
 
         List<NavigationItem> childrens = item.children;
         for (NavigationItem i : childrens) {
 
             createItemsForNavigationItems(i);
         }
-        NavigationItem.em().detach(item);
+
+        JPA.em().detach(item);
     }
 
     public static NavigationItem get(String path) {
