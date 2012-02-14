@@ -42,9 +42,21 @@ public class NavigationItem extends Model {
     //@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     //public List<NavigationItem> children = new ArrayList<NavigationItem>();
 
+    private List<NavigationItem> childs = null;
+
     public List<NavigationItem> getChildren() {
         
-        return NavigationItem.findByParent(this);
+        if (childs == null){
+            
+            childs = NavigationItem.findByParent(this);
+        }
+        
+        return childs;
+    }
+
+    public void addChilds(List<NavigationItem> childs){
+        getChildren();
+        childs.addAll(childs);
     }
 
 
@@ -69,7 +81,7 @@ public class NavigationItem extends Model {
     private void clearcache(){
         
         if (parent != null){
-            
+
             EntityManager em = JPA.em();
             
             if (!em.contains(parent)){

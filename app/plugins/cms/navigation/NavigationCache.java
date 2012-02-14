@@ -121,7 +121,7 @@ public class NavigationCache {
                 if (nav != null){
                     
                     List<NavigationItem> childrens = new ArrayList(nav.keySet());
-                    item.children.addAll(childrens);
+                    item.addChilds(childrens);
 
                     for (NavigationItem i : childrens){
                         
@@ -165,11 +165,7 @@ public class NavigationCache {
 
         items.put(item.path, item);
 
-        String parentid = item.parent != null ? String.valueOf(item.parent.id) : "null";
-        play.Logger.info(item.id + " -> " + parentid);
-        play.Logger.info(item.id + " has [" + item.children.size() + "]");
-
-        List<NavigationItem> childrens = item.children;
+        List<NavigationItem> childrens = item.getChildren();
         for (NavigationItem i : childrens) {
 
             createItemsForNavigationItems(i);
