@@ -103,8 +103,6 @@ public class CmsController extends Controller {
         if (path == null){
             path = "/";
         }
-        
-        play.Logger.info("manageNavigation");
 
         NavigationItem openedNavItem = NavigationCache.get(path);
         

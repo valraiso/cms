@@ -49,7 +49,12 @@ public class NavigationItem extends Model {
         
         if (childs == null){
             
-            childs = NavigationItem.findByParent(this);
+            if (this.id != null){
+                childs = NavigationItem.findByParent(this);
+            }
+            else {
+                childs = new ArrayList<NavigationItem>();
+            }
         }
         
         return childs;
