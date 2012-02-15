@@ -61,7 +61,7 @@ public class NavigationItem extends Model {
             if (em.contains(this)){
                 
                 this.childs = NavigationItem.findByParent(this);
-                play.Logger.info("found "+ childs.size() +" childs for " + this.id);
+                //play.Logger.info("found "+ childs.size() +" childs for " + this.id);
             }
             else {
                 this.childs = new ArrayList<NavigationItem>();
@@ -106,7 +106,7 @@ public class NavigationItem extends Model {
         if (parent != null){
 
             EntityManager em = JPA.em();
-            
+
             if (!em.contains(parent)){
                 
                 parent = NavigationItem.findById(parent.id);

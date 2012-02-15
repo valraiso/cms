@@ -162,13 +162,13 @@ public class NavigationCache {
 
 
         String p = item.parent != null ? String.valueOf(item.parent.id) : "null";
-        play.Logger.info("item " + item.id + " -> " + p);
+        //play.Logger.info("item " + item.id + " -> " + p);
 
         items.put(item.path, item);
 
         List<NavigationItem> childrens = item.getChildren();
         for (NavigationItem i : childrens) {
-            play.Logger.info("child " + i.id + " -> " + item.id);
+            //play.Logger.info("child " + i.id + " -> " + item.id);
             createItemsForNavigationItems(i);
         }
 
