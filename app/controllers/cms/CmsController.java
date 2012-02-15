@@ -219,13 +219,24 @@ public class CmsController extends Controller {
         Map<String,Object> result = new HashMap<String, Object>();
         boolean status = false;
         
+        play.cache.Cache.set("cms.disable-navigationcache-init", "");
+
         try {
-            
-            
+    
             NavigationItem parent    = NavigationItem.findById(parentid);
+
+            Long n = 0L;
+            for (NavigationItem i : parent.getChildren()){
+                
+                if (n == pos){
+                    n+=1;
+                }
+                i.position = n++;
+                i.save();
+            }
+
             NavigationItem navItem   = NavigationItem.findById(navid);
             NavigationItem oldParent = navItem.parent;
-
 
             navItem.parent   = parent;
             navItem.position = pos;
@@ -236,6 +247,9 @@ public class CmsController extends Controller {
         }
         catch (Exception ex) {
             ex.printStackTrace();
+        }
+        finally {
+            play.cache.Cache.delete("cms.disable-navigationcache-init");
         }
         
         result.put("status", status);

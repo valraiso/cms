@@ -103,19 +103,21 @@ public class NavigationItem extends Model {
     @PostPersist @PostUpdate
     private void clearcache(){
         
-        if (parent != null){
-
-            EntityManager em = JPA.em();
-
-            if (!em.contains(parent)){
-                
-                parent = NavigationItem.findById(parent.id);
-            }
+        Object isDisabled = play.cache.Cache.get("cms.disable-navigationcache-init");
+        if (isDisabled == null){
             
-            em.refresh(parent);
-        }
+            if (parent != null){
 
-        NavigationCache.init();
+                EntityManager em = JPA.em();
+                if (!em.contains(parent)){
+                    
+                    parent = NavigationItem.findById(parent.id);
+                }
+                em.refresh(parent);
+            }
+
+            NavigationCache.init();
+        }
     }
     
    

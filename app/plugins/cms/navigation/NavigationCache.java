@@ -34,6 +34,8 @@ public class NavigationCache {
     
     public static void init() {
 
+        //play.Logger.info("cache init");
+
 		initDomains();
 		
         initVirtualPage();
@@ -160,13 +162,12 @@ public class NavigationCache {
     
     private static void createItemsForNavigationItems(NavigationItem item) {
 
-
-        String p = item.parent != null ? String.valueOf(item.parent.id) : "null";
-        //play.Logger.info("item " + item.id + " -> " + p);
+        //String p = item.parent != null ? String.valueOf(item.parent.id) : "null";
+        //play.Logger.info("item " + item.id + " -> " + item.position);
 
         items.put(item.path, item);
 
-        List<NavigationItem> childrens = item.getChildren();
+        List<NavigationItem> childrens = item.getChildren(false);
         for (NavigationItem i : childrens) {
             //play.Logger.info("child " + i.id + " -> " + item.id);
             createItemsForNavigationItems(i);
