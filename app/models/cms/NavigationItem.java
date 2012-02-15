@@ -47,26 +47,39 @@ public class NavigationItem extends Model {
 
     public List<NavigationItem> getChildren() {
         
-        if (childs == null){
+        return getChildren(true);
+    }
+
+    public List<NavigationItem> getChildren(boolean useCache) {
+        
+        if (this.childs == null || !useCache){
 
             /**
             * don't attempt to retrieve entity not managed by JPA
             **/
             EntityManager em = JPA.em();
             if (em.contains(this)){
-                childs = NavigationItem.findByParent(this);
+                
+                this.childs = NavigationItem.findByParent(this);
+                play.Logger.info("found "+ childs.size() +" childs for " + this.id);
             }
             else {
-                childs = new ArrayList<NavigationItem>();
+                this.childs = new ArrayList<NavigationItem>();
             }
         }
         
-        return childs;
+        return this.childs;
     }
 
     public void addChilds(List<NavigationItem> childs){
         getChildren();
         this.childs.addAll(childs);
+    }
+
+    public void removeChild(NavigationItem child){
+        
+        getChildren();
+        this.childs.remove(child);
     }
 
 

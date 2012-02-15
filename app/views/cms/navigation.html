@@ -1,2 +1,15 @@
-%{navItem = cms.rootNavigationItem();}%
-#{include '/cms/arbo.html'/}
+<html>
+	<head>
+	<script type="text/javascript" src="/public/javascripts/jquery-1.6.4.min.js"></script>
+	<script type="text/javascript" src="/public/javascripts/treejs/jquery.jstree.js"></script>
+	<script type="text/javascript" src="/public/cms/cms-nav.js"></script>
+	<link rel="stylesheet"  href="/public/cms/cms.css"/>
+	</head>
+	<body>
+        <div id="cms_nav">
+	        %{navItem = cms.rootNavigationItem();}%
+			#{include '/cms/arbo.html'/}
+        </div>
+        <div id="cms_nav_edit"></div>
+	</body>
+</html>

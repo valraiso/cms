@@ -8,7 +8,7 @@
 GET     /--cms/clearcache				cms.CmsController.ClearCache
 POST    /--cms/auth						cms.CmsController.auth
 
-*    /--cms/navigation			    cms.CmsController.manageNavigation
+*    	/--cms/navigation			    cms.CmsController.manageNavigation
 POST    /--cms/navigation/create        cms.CmsController.create
 POST    /--cms/navigation/rename        cms.CmsController.rename
 POST    /--cms/navigation/remove        cms.CmsController.remove

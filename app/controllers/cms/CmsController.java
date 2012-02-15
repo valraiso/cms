@@ -14,7 +14,7 @@ import models.cms.VirtualPageTemplate;
 import models.cms.Translation;
 import models.cms.SeoParameter;
 import models.cms.User;
-import play.i18n.Lang;
+
 import play.mvc.Controller;
 import play.mvc.Http.Cookie;
 import play.templates.JavaExtensions;
@@ -24,6 +24,7 @@ import plugins.cms.CmsContext;
 import java.util.ArrayList;
 import java.util.Arrays;
 import play.Play;
+import play.i18n.*;
 
 import play.db.jpa.*;
 import javax.persistence.*;
@@ -59,6 +60,8 @@ public class CmsController extends Controller {
     public static void ClearCache(){
         
         NavigationCache.init();
+
+        //Play.pluginCollection.getPluginInstance(MessagesPlugin.class).onApplicationStart();
     }
     
     public static void redirectMappedItem(){
@@ -217,23 +220,19 @@ public class CmsController extends Controller {
         boolean status = false;
         
         try {
-
+            
+            
             NavigationItem parent    = NavigationItem.findById(parentid);
             NavigationItem navItem   = NavigationItem.findById(navid);
             NavigationItem oldParent = navItem.parent;
+
 
             navItem.parent   = parent;
             navItem.position = pos;
             navItem.save();
 
-            
-            /*
-            if (parent != null){
-                parent.children.add(navItem);
-                parent.save();
-            }
-            */
-            //NavigationCache.init();
+            NavigationCache.init();
+            status = true;
         }
         catch (Exception ex) {
             ex.printStackTrace();

@@ -176,36 +176,51 @@ var cms = {
                                     '<a href="#" class="close">×</a>'+
                                     '<h2>Structure du site</h2>'+    
                                 '</div>'+
-                                '<div class="cms_overlaybox-body">'+
-                                    '<div id="cms_nav"></div>'+
-                                    '<div id="cms_nav_edit"></div>'+
-                                    '<div style="clear:both"></div>'+
+                                '<div class="cms_overlaybox-body" style="height:360px">'+
+                                    '<iframe id="cms_nav_iframe" width="100%" height="100%" frameborder="0"></iframe>'+
                                 '</div>'+
                                 '<div class="cms_overlaybox-footer">'+
                                     '<button type="button" id="cms_nav_save">Sauvegarder</button>'+
                                     '<span id="cms-nav-result" class="label success" style="display: none"></span>'+
                                 '</div>'+
                             '</div>');
-                        
             
-            
+            $(".cms_overlaybox").overlay({
+                // custom top position
+                top: '20%',
+
+                // some mask tweaks suitable for facebox-looking dialogs
+                mask: {
+
+                    // you might also consider a "transparent" color for the mask
+                    color: '#000',
+
+                    // load mask a little faster
+                    loadSpeed: 200,
+
+                    // very transparent
+                    opacity: 0.8
+
+                },       
+
+                // load it immediately after the construction
+                load: false
+            });
+
+            $("#cms_nav_save").click(function (){
+
+                var iframe = $("#cms_nav_iframe").get(0);
+                var iframedocument = iframe.document || iframe.contentWindow.document; // document of iframe
+
+                iframedocument.savehandler();
+            })
         }
         else {
             $(".cms_overlaybox").overlay().load();
         }
 
-        setTimeout(function (){
-            depend.on('/public/javascripts/treejs/jquery.jstree.js', function (){
-
-                $.post('/--cms/navigation', {path : cms.requestedResource}, function (data){
-                    $("#cms_nav").html(data);
-                    $.getScript('/public/cms/cms-nav.js', function (){
-
-                        $(".cms_overlaybox").overlay().load();
-                    }); 
-                })
-            });
-        }, 10);
+        $("#cms_nav_iframe").attr('src', 'http://' + window.location.host + '/--cms/navigation?path='+ cms.requestedResource+"&t=" + (new Date()).getTime());
+        $(".cms_overlaybox").overlay().load();
     }
 };
 
