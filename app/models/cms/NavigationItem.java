@@ -100,9 +100,10 @@ public class NavigationItem extends Model {
         return false;
     }
     
-    @PostPersist @PostUpdate
-    private void clearcache(){
+    public <T extends JPABase> T save(){
         
+        T obj = super.save();
+
         Object isDisabled = play.cache.Cache.get("cms.disable-navigationcache-init");
         if (isDisabled == null){
             
@@ -118,6 +119,8 @@ public class NavigationItem extends Model {
 
             NavigationCache.init();
         }
+
+        return obj;
     }
     
    
