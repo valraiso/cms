@@ -395,7 +395,9 @@ public class CmsController extends Controller {
 
                 for (VirtualPageTemplate template : templates){
 
-                    if (template.view.equals(virtualPage.view)){
+                    if ((template.view != null && template.view.equals(virtualPage.view))
+                        || (template.action != null && template.action.equals(virtualPage.action))
+                    ){
                         virtualPageTemplate = template;
                         break;
                     }
