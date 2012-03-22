@@ -133,6 +133,30 @@ public class Tag {
         return items.get(0);
         */
     }
+    public static List<NavigationItem> getActiveChildrens(NavigationItem item){
+
+        return getActiveChildrens(item, true);
+    }
+
+    public static List<NavigationItem> getActiveChildrens(NavigationItem item, boolean includePlugins){
+  
+        if (item == null){
+            return null;
+        }
+
+        List<NavigationItem> childs = item.getChildren();
+        if (isCmsUserLogged()){
+            return childs;
+        }
+
+        List<NavigationItem> result = new ArrayList<NavigationItem>();
+        for (NavigationItem child : childs){
+            if (child.active && (includePlugins || (!includePlugins && child.navigationPlugin == null))) {
+                result.add( child );
+            }
+        }
+        return result;
+    }
     
     private static String generateCommon(){
         
