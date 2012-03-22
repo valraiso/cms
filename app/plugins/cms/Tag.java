@@ -149,13 +149,10 @@ public class Tag {
         }
 
         List<NavigationItem> childs = item.getChildren();
-        if (isCmsUserLogged()){
-            return childs;
-        }
 
         List<NavigationItem> result = new ArrayList<NavigationItem>();
         for (NavigationItem child : childs){
-            if (child.active && (includePlugins || (!includePlugins && child.navigationPlugin == null))) {
+            if ((child.active || isCmsUserLogged()) && (includePlugins || (!includePlugins && child.navigationPlugin == null))) {
                 result.add( child );
             }
         }
