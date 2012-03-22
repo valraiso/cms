@@ -2,6 +2,7 @@ package plugins.cms;
 
 import models.cms.NavigationItem;
 import models.cms.Translation;
+import java.util.*;
 
 /**
  * @author benoit
@@ -53,5 +54,13 @@ public class CmsContext {
         
         return Tag.url(path);
     }
-    
+
+    public List<NavigationItem> getActiveChildrens(NavigationItem item){
+
+        return Tag.getActiveChildrens(item);
+    }
+    public List<NavigationItem> getActiveChildrens(NavigationItem item, Boolean includePlugins){
+
+        return Tag.getActiveChildrens(item, includePlugins);
+    }
 }

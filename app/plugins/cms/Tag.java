@@ -138,10 +138,14 @@ public class Tag {
         return getActiveChildrens(item, true);
     }
 
-    public static List<NavigationItem> getActiveChildrens(NavigationItem item, boolean includePlugins){
+    public static List<NavigationItem> getActiveChildrens(NavigationItem item, Boolean includePlugins){
   
         if (item == null){
             return null;
+        }
+
+        if (includePlugins == null){
+            includePlugins = true;
         }
 
         List<NavigationItem> childs = item.getChildren();
