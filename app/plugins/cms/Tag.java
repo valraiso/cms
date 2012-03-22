@@ -1,6 +1,6 @@
 package plugins.cms;
 
-import java.util.List;
+import java.util.*;
 import plugins.cms.navigation.NavigationCache;
 import models.cms.*;
 import play.i18n.Lang;
