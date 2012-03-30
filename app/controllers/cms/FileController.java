@@ -14,7 +14,7 @@ public class FileController extends Controller {
         String rootPath = Play.applicationPath.getAbsolutePath();
         
         rootPath = rootPath.substring(0, rootPath.lastIndexOf("/"));
-        rootPath += "/__files/" + Play.configuration.getProperty("application.name");
+        rootPath += "/__files/" + getApplicationFilesPath();
         
         File root = new File(rootPath);
         if(!root.exists()){
@@ -49,5 +49,15 @@ public class FileController extends Controller {
            return false;
        }
        return file.delete();
+   }
+
+   public static String getApplicationFilesPath(){
+
+      String path = Play.configuration.getProperty("application.files");
+      if (path == null || path.isEmpty()){
+         path = Play.configuration.getProperty("application.name");
+      }
+
+      return path;
    }
 }
