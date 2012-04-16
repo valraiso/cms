@@ -154,6 +154,7 @@ public class NavigationCache {
                             }
                         }
                     }
+                    item.sortChilds();
                 }
             }
         }

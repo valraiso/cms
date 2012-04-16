@@ -1,16 +1,18 @@
 <table>
-	<tr>
-		<th>itemid</th>
-		<th>parentid</th>
-		<th>actif</th>
-		<th>navItem</th>
-		<th>mappedItem source</th>
-		<th>mappedItem destination</th>
-	</tr>
-	
-	%{
-		current = root;
-	}%
+ <tr>
+  <th>itemid</th>
+  <th>parentid</th>
+  <th>actif</th>
+  <th>position</th>
+  <th>name</th>
+  <th>navItem</th>
+  <th>mappedItem source</th>
+  <th>mappedItem destination</th>
+ </tr>
+ 
+ %{
+  current = root;
+ }%
 
-	#{include 'debug/tree.html'/}
+ #{include 'debug/tree.html'/}
 </table>

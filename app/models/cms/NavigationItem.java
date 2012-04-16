@@ -99,6 +99,15 @@ public class NavigationItem extends Model {
 
         return false;
     }
+
+    public void sortChilds(){
+        Collections.sort( childs, new Comparator<NavigationItem>(){
+            @Override
+            public int compare( NavigationItem o1, NavigationItem o2 ) {
+                return ((Long)o1.position).compareTo( (Long )o2.position);
+            }}
+        );
+    }
     
     public <T extends JPABase> T save(){
         

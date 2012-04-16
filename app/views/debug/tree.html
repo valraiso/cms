@@ -1,15 +1,16 @@
-
 <tr>
-	<td>${current.item?.id}</td>
-	<td>${current.item?.parent?.id}</td>
-	<td>${current.item?.active}</td>
-	<td>${current.item?.path}</td>
-	<td>${current.mappedItem?.source}</td>
-	<td>${current.mappedItem?.destination}</td>
+ <td>${current.item?.id}</td>
+ <td>${current.item?.parent?.id}</td>
+ <td>${current.item?.active}</td>
+ <td>${current.item?.position}</td>
+ <td>${current.item?.name}</td>
+ <td>${current.item?.path}</td>
+ <td>${current.mappedItem?.source}</td>
+ <td>${current.mappedItem?.destination}</td>
 </tr>
 #{list current.childrens, as:'child'}
 %{
-	current = child
+ current = child
 }%
 #{include 'debug/tree.html'/}
 #{/list}
