@@ -5,6 +5,10 @@
 #
 # ~~~~
 
+GET		/--cms/fake/pageNotFound 	    cms.CmsController.pageNotFound
+GET		/--cms/fake/redirectMappedItem 	cms.CmsController.redirectMappedItem
+GET		/--cms/fake/virtualPage		 	cms.CmsController.virtualPage
+
 GET     /--cms/clearcache				cms.CmsController.ClearCache
 POST    /--cms/auth						cms.CmsController.auth
 
