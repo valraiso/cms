@@ -25,8 +25,11 @@ public class EditorController extends Controller {
         int i = 0;
         while (true) {
             
-            String code     = params.get("editors[" + i + "][code]");
-            String content  = params.get("editors[" + i + "][content]");
+            String  code    = params.get("editors[" + i + "][code]");
+            String  content = params.get("editors[" + i + "][content]");
+            Boolean fixed   = params.get("editors[" + i + "][fixed]", Boolean.class);
+
+            fixed = (fixed == null ? false : fixed);
 
             i++;
 
@@ -34,13 +37,22 @@ public class EditorController extends Controller {
                 break;
             }
 
-            Editor editor = Editor.findByPathAndCodeAndLanguage(path, code, lang);
+            Editor editor;
+
+            if (fixed) {
+
+                editor = Editor.findStaticByCodeAndLanguage(code, lang);
+            }
+            else {
+
+                editor = Editor.findByPathAndCodeAndLanguage(path, code, lang);
+            }
 
             if (editor == null) {
 
                 editor = new Editor();
 
-                editor.path     = path;
+                editor.path     = (fixed ? null : path);
                 editor.code     = code;
                 editor.language = lang;
             }

@@ -120,12 +120,14 @@ var cms = {
 
             var html = $(this).html();
             var code = $(this).data('code');
+            var fixed = $(this).data('fixed');
 
             var editor = {};
 
             editor.code = code;
             editor.content = html;
-
+            editor.fixed = fixed;
+            
             data.editors.push (editor);
         });
 
