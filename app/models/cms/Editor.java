@@ -32,4 +32,22 @@ public class Editor extends Model {
         
         return Editor.find("byPathAndCodeAndLanguage", path, code, lang).first();
     }
+
+    public static Editor findStaticByCodeAndLanguage(String code, String lang){
+
+        String   jpql = "";
+        JPAQuery query;
+
+        jpql += " SELECT e";
+        jpql += " FROM   Editor e";
+        jpql += " WHERE  e.path IS NULL";
+        jpql += " AND   e.code     = :code";
+        jpql += " AND   e.language = :lang";
+
+        query = Editor.find(jpql);
+        query.bind("code", code);
+        query.bind("lang", lang);
+
+        return query.first();
+    }
 }
