@@ -47,6 +47,40 @@ public class Tag {
         return host + Tag.url( path);
     }
     
+    public static String staticeditor(String code){
+        
+        String     lang        = Lang.get();
+        CmsContext cmsContext  = CmsContext.current();
+        Editor     editor      = Editor.findStaticByCodeAndLanguage(code, lang);
+        String     content     = "";
+        String     htmlContent = "";
+
+        if (isCmsEditingAuthorized() && !cmsContext._tagGenerated ){
+            
+            content += generateCommon();
+            cmsContext._tagGenerated = true;
+        }
+
+        if (editor != null){
+
+            htmlContent += editor.content;
+        }
+
+        if (isCmsEditingAuthorized()){
+            
+            htmlContent = "<div class=\"cms_editor\" data-code=\""+code+"\">" + htmlContent;
+            
+            if ((editor == null || editor.content.isEmpty())){
+
+                htmlContent += CmsContext.Constant.CMS_EDITOR_DEFAULT;
+            }
+            
+            htmlContent += "</div>";
+        }
+        
+        return content + htmlContent;
+    }
+    
     public static String editor(String code){
         
         Http.Request request = Http.Request.current();
