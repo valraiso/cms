@@ -68,7 +68,7 @@ public class Tag {
 
         if (isCmsEditingAuthorized()){
             
-            htmlContent = "<div class=\"cms_editor\" data-fixed="true" data-code=\""+code+"\">" + htmlContent;
+            htmlContent = "<div class=\"cms_editor\" data-fixed=\"true\" data-code=\""+code+"\">" + htmlContent;
             
             if ((editor == null || editor.content.isEmpty())){
 
