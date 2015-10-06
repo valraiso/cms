@@ -227,8 +227,8 @@ var cms = {
     }
 };
 
-loadScript('/public/javascripts/elrte-1.3/js/elrte.min.js')
-loadScript('/public/javascripts/elfinder-1.2/js/elfinder.min.js', function (){
+   loadScript('/public/javascripts/elrte-1.3/js/elrte.min.js')
+   loadScript('/public/javascripts/elfinder-1.2/js/elfinder.min.js', function (){
    loadScript('/public/javascripts/elfinder-1.2/js/i18n/elfinder.fr.js');
 })
 
