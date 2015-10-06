@@ -221,7 +221,8 @@ var cms = {
             $(".cms_overlaybox").overlay().load();
         }
 
-        $("#cms_nav_iframe").attr('src', 'http://' + window.location.host + '/--cms/navigation?path='+ cms.requestedResource+"&t=" + (new Date()).getTime());
+        //$("#cms_nav_iframe").attr('src', 'http://' + window.location.host + '/--cms/navigation?path='+ cms.requestedResource+"&t=" + (new Date()).getTime());
+        $("#cms_nav_iframe").attr('src', window.location.protocol + '//' + window.location.host + '/--cms/navigation?path='+ cms.requestedResource+"&t=" + (new Date()).getTime());
         $(".cms_overlaybox").overlay().load();
     }
 };
